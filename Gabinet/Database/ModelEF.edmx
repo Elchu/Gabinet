@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Gabinet.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="godziny">
+          <Key>
+            <PropertyRef Name="godziny_id" />
+          </Key>
+          <Property Name="godziny_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uzytkownik_id" Type="int" Nullable="false" />
+          <Property Name="pon_od" Type="time" Precision="7" />
+          <Property Name="pon_do" Type="time" Precision="7" />
+          <Property Name="wt_od" Type="time" Precision="7" />
+          <Property Name="wt_do" Type="time" Precision="7" />
+          <Property Name="sr_od" Type="time" Precision="7" />
+          <Property Name="sr_do" Type="time" Precision="7" />
+          <Property Name="czw_od" Type="time" Precision="7" />
+          <Property Name="czw_do" Type="time" Precision="7" />
+          <Property Name="pt_od" Type="time" Precision="7" />
+          <Property Name="pt_do" Type="time" Precision="7" />
+          <Property Name="sb_od" Type="time" Precision="7" />
+          <Property Name="sb_do" Type="time" Precision="7" />
+          <Property Name="nd_od" Type="time" Precision="7" />
+          <Property Name="nd_do" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="klienci">
+          <Key>
+            <PropertyRef Name="klienci_id" />
+          </Key>
+          <Property Name="klienci_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imie" Type="nvarchar" MaxLength="50" />
+          <Property Name="nazwisko" Type="nvarchar" MaxLength="120" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="telefon" Type="nvarchar" MaxLength="50" />
+          <Property Name="ulica" Type="nvarchar" MaxLength="120" />
+          <Property Name="numerDomu" Type="nvarchar" MaxLength="15" />
+          <Property Name="miejscowosc" Type="nvarchar" MaxLength="120" />
+          <Property Name="kodPocztowy" Type="nvarchar" MaxLength="50" />
+          <Property Name="modyfikacja" Type="datetime" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="uslugi">
+          <Key>
+            <PropertyRef Name="usluga_id" />
+          </Key>
+          <Property Name="usluga_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="nvarchar" MaxLength="50" />
+          <Property Name="cena" Type="money" />
+          <Property Name="czas" Type="time" Precision="7" />
+          <Property Name="opis" Type="text" />
+        </EntityType>
+        <EntityType Name="uzytkownik">
+          <Key>
+            <PropertyRef Name="uzytkownik_id" />
+          </Key>
+          <Property Name="uzytkownik_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="imie" Type="nvarchar" MaxLength="50" />
+          <Property Name="nazwisko" Type="nvarchar" MaxLength="120" />
+          <Property Name="haslo" Type="nvarchar" MaxLength="120" />
+          <Property Name="pracownik" Type="bit" />
+        </EntityType>
+        <EntityType Name="uzytkownik_usluga">
+          <Key>
+            <PropertyRef Name="uzytkownik_usluga_id" />
+          </Key>
+          <Property Name="uzytkownik_usluga_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uzytkownik_id" Type="int" Nullable="false" />
+          <Property Name="usluga_id" Type="int" Nullable="false" />
+          <Property Name="modyfikacja" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="wizyty">
+          <Key>
+            <PropertyRef Name="wizyty_id" />
+          </Key>
+          <Property Name="wizyty_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="klienci_id" Type="int" />
+          <Property Name="uslugi_id" Type="int" />
+          <Property Name="uzytkownik_id" Type="int" />
+          <Property Name="rezerwacja_od" Type="datetime" />
+          <Property Name="rezerwacja_do" Type="datetime" />
+          <Property Name="status_id" Type="int" />
+          <Property Name="modyfikacja" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_godziny_uzytkownik">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+          <End Role="godziny" Type="Self.godziny" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="godziny">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_uzytkownik_usluga_uslugi">
+          <End Role="uslugi" Type="Self.uslugi" Multiplicity="1" />
+          <End Role="uzytkownik_usluga" Type="Self.uzytkownik_usluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uslugi">
+              <PropertyRef Name="usluga_id" />
+            </Principal>
+            <Dependent Role="uzytkownik_usluga">
+              <PropertyRef Name="usluga_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_uzytkownik_usluga_uzytkownik">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+          <End Role="uzytkownik_usluga" Type="Self.uzytkownik_usluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="uzytkownik_usluga">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_klienci">
+          <End Role="klienci" Type="Self.klienci" Multiplicity="0..1" />
+          <End Role="wizyty" Type="Self.wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klienci">
+              <PropertyRef Name="klienci_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="klienci_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_status">
+          <End Role="status" Type="Self.status" Multiplicity="0..1" />
+          <End Role="wizyty" Type="Self.wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_uslugi">
+          <End Role="uslugi" Type="Self.uslugi" Multiplicity="0..1" />
+          <End Role="wizyty" Type="Self.wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uslugi">
+              <PropertyRef Name="usluga_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="uslugi_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_uzytkownik">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="0..1" />
+          <End Role="wizyty" Type="Self.wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GabinetStoreContainer">
+          <EntitySet Name="godziny" EntityType="Self.godziny" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="klienci" EntityType="Self.klienci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="uslugi" EntityType="Self.uslugi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="uzytkownik" EntityType="Self.uzytkownik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="uzytkownik_usluga" EntityType="Self.uzytkownik_usluga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wizyty" EntityType="Self.wizyty" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_godziny_uzytkownik" Association="Self.FK_godziny_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="godziny" EntitySet="godziny" />
+          </AssociationSet>
+          <AssociationSet Name="FK_uzytkownik_usluga_uslugi" Association="Self.FK_uzytkownik_usluga_uslugi">
+            <End Role="uslugi" EntitySet="uslugi" />
+            <End Role="uzytkownik_usluga" EntitySet="uzytkownik_usluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_uzytkownik_usluga_uzytkownik" Association="Self.FK_uzytkownik_usluga_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="uzytkownik_usluga" EntitySet="uzytkownik_usluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_klienci" Association="Self.FK_wizyty_klienci">
+            <End Role="klienci" EntitySet="klienci" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_status" Association="Self.FK_wizyty_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_uslugi" Association="Self.FK_wizyty_uslugi">
+            <End Role="uslugi" EntitySet="uslugi" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_uzytkownik" Association="Self.FK_wizyty_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Gabinet" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="godziny">
+          <Key>
+            <PropertyRef Name="godziny_id" />
+          </Key>
+          <Property Name="godziny_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uzytkownik_id" Type="Int32" Nullable="false" />
+          <Property Name="pon_od" Type="Time" Precision="7" />
+          <Property Name="pon_do" Type="Time" Precision="7" />
+          <Property Name="wt_od" Type="Time" Precision="7" />
+          <Property Name="wt_do" Type="Time" Precision="7" />
+          <Property Name="sr_od" Type="Time" Precision="7" />
+          <Property Name="sr_do" Type="Time" Precision="7" />
+          <Property Name="czw_od" Type="Time" Precision="7" />
+          <Property Name="czw_do" Type="Time" Precision="7" />
+          <Property Name="pt_od" Type="Time" Precision="7" />
+          <Property Name="pt_do" Type="Time" Precision="7" />
+          <Property Name="sb_od" Type="Time" Precision="7" />
+          <Property Name="sb_do" Type="Time" Precision="7" />
+          <Property Name="nd_od" Type="Time" Precision="7" />
+          <Property Name="nd_do" Type="Time" Precision="7" />
+          <NavigationProperty Name="uzytkownik" Relationship="Self.FK_godziny_uzytkownik" FromRole="godziny" ToRole="uzytkownik" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="uzytkownik">
+          <Key>
+            <PropertyRef Name="uzytkownik_id" />
+          </Key>
+          <Property Name="uzytkownik_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="imie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nazwisko" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="haslo" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="pracownik" Type="Boolean" />
+          <NavigationProperty Name="godziny" Relationship="Self.FK_godziny_uzytkownik" FromRole="uzytkownik" ToRole="godziny" />
+          <NavigationProperty Name="uzytkownik_usluga" Relationship="Gabinet.FK_uzytkownik_usluga_uzytkownik" FromRole="uzytkownik" ToRole="uzytkownik_usluga" />
+          <NavigationProperty Name="wizyty" Relationship="Gabinet.FK_wizyty_uzytkownik" FromRole="uzytkownik" ToRole="wizyty" />
+        </EntityType>
+        <Association Name="FK_godziny_uzytkownik">
+          <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+          <End Role="godziny" Type="Self.godziny" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="godziny">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GabinetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="godziny" EntityType="Self.godziny" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="uzytkownik" EntityType="Self.uzytkownik" />
+          <AssociationSet Name="FK_godziny_uzytkownik" Association="Self.FK_godziny_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="godziny" EntitySet="godziny" />
+          </AssociationSet>
+          <EntitySet Name="uslugi" EntityType="Gabinet.uslugi" />
+          <EntitySet Name="klienci" EntityType="Gabinet.klienci" />
+          <EntitySet Name="uzytkownik_usluga" EntityType="Gabinet.uzytkownik_usluga" />
+          <AssociationSet Name="FK_uzytkownik_usluga_uslugi" Association="Gabinet.FK_uzytkownik_usluga_uslugi">
+            <End Role="uslugi" EntitySet="uslugi" />
+            <End Role="uzytkownik_usluga" EntitySet="uzytkownik_usluga" />
+          </AssociationSet>
+          <AssociationSet Name="FK_uzytkownik_usluga_uzytkownik" Association="Gabinet.FK_uzytkownik_usluga_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="uzytkownik_usluga" EntitySet="uzytkownik_usluga" />
+          </AssociationSet>
+          <EntitySet Name="status" EntityType="Gabinet.status" />
+          <EntitySet Name="wizyty" EntityType="Gabinet.wizyty" />
+          <AssociationSet Name="FK_wizyty_klienci" Association="Gabinet.FK_wizyty_klienci">
+            <End Role="klienci" EntitySet="klienci" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_status" Association="Gabinet.FK_wizyty_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_uslugi" Association="Gabinet.FK_wizyty_uslugi">
+            <End Role="uslugi" EntitySet="uslugi" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_wizyty_uzytkownik" Association="Gabinet.FK_wizyty_uzytkownik">
+            <End Role="uzytkownik" EntitySet="uzytkownik" />
+            <End Role="wizyty" EntitySet="wizyty" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="uslugi">
+          <Key>
+            <PropertyRef Name="usluga_id" />
+          </Key>
+          <Property Name="usluga_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cena" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="czas" Type="Time" Precision="7" />
+          <Property Name="opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="uzytkownik_usluga" Relationship="Gabinet.FK_uzytkownik_usluga_uslugi" FromRole="uslugi" ToRole="uzytkownik_usluga" />
+          <NavigationProperty Name="wizyty" Relationship="Gabinet.FK_wizyty_uslugi" FromRole="uslugi" ToRole="wizyty" />
+        </EntityType>
+        <EntityType Name="klienci">
+          <Key>
+            <PropertyRef Name="klienci_id" />
+          </Key>
+          <Property Name="klienci_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nazwisko" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ulica" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="numerDomu" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="miejscowosc" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="kodPocztowy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="modyfikacja" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="wizyty" Relationship="Gabinet.FK_wizyty_klienci" FromRole="klienci" ToRole="wizyty" />
+        </EntityType>
+        <EntityType Name="uzytkownik_usluga">
+          <Key>
+            <PropertyRef Name="uzytkownik_usluga_id" />
+          </Key>
+          <Property Name="uzytkownik_usluga_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uzytkownik_id" Type="Int32" Nullable="false" />
+          <Property Name="usluga_id" Type="Int32" Nullable="false" />
+          <Property Name="modyfikacja" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="uslugi" Relationship="Gabinet.FK_uzytkownik_usluga_uslugi" FromRole="uzytkownik_usluga" ToRole="uslugi" />
+          <NavigationProperty Name="uzytkownik" Relationship="Gabinet.FK_uzytkownik_usluga_uzytkownik" FromRole="uzytkownik_usluga" ToRole="uzytkownik" />
+        </EntityType>
+        <Association Name="FK_uzytkownik_usluga_uslugi">
+          <End Type="Gabinet.uslugi" Role="uslugi" Multiplicity="1" />
+          <End Type="Gabinet.uzytkownik_usluga" Role="uzytkownik_usluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uslugi">
+              <PropertyRef Name="usluga_id" />
+            </Principal>
+            <Dependent Role="uzytkownik_usluga">
+              <PropertyRef Name="usluga_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_uzytkownik_usluga_uzytkownik">
+          <End Type="Gabinet.uzytkownik" Role="uzytkownik" Multiplicity="1" />
+          <End Type="Gabinet.uzytkownik_usluga" Role="uzytkownik_usluga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="uzytkownik_usluga">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="wizyty" Relationship="Gabinet.FK_wizyty_status" FromRole="status" ToRole="wizyty" />
+        </EntityType>
+        <EntityType Name="wizyty">
+          <Key>
+            <PropertyRef Name="wizyty_id" />
+          </Key>
+          <Property Name="wizyty_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="klienci_id" Type="Int32" />
+          <Property Name="uslugi_id" Type="Int32" />
+          <Property Name="uzytkownik_id" Type="Int32" />
+          <Property Name="rezerwacja_od" Type="DateTime" Precision="3" />
+          <Property Name="rezerwacja_do" Type="DateTime" Precision="3" />
+          <Property Name="status_id" Type="Int32" />
+          <Property Name="modyfikacja" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="klienci" Relationship="Gabinet.FK_wizyty_klienci" FromRole="wizyty" ToRole="klienci" />
+          <NavigationProperty Name="status" Relationship="Gabinet.FK_wizyty_status" FromRole="wizyty" ToRole="status" />
+          <NavigationProperty Name="uslugi" Relationship="Gabinet.FK_wizyty_uslugi" FromRole="wizyty" ToRole="uslugi" />
+          <NavigationProperty Name="uzytkownik" Relationship="Gabinet.FK_wizyty_uzytkownik" FromRole="wizyty" ToRole="uzytkownik" />
+        </EntityType>
+        <Association Name="FK_wizyty_klienci">
+          <End Type="Gabinet.klienci" Role="klienci" Multiplicity="0..1" />
+          <End Type="Gabinet.wizyty" Role="wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="klienci">
+              <PropertyRef Name="klienci_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="klienci_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_status">
+          <End Type="Gabinet.status" Role="status" Multiplicity="0..1" />
+          <End Type="Gabinet.wizyty" Role="wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_uslugi">
+          <End Type="Gabinet.uslugi" Role="uslugi" Multiplicity="0..1" />
+          <End Type="Gabinet.wizyty" Role="wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uslugi">
+              <PropertyRef Name="usluga_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="uslugi_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_wizyty_uzytkownik">
+          <End Type="Gabinet.uzytkownik" Role="uzytkownik" Multiplicity="0..1" />
+          <End Type="Gabinet.wizyty" Role="wizyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uzytkownik">
+              <PropertyRef Name="uzytkownik_id" />
+            </Principal>
+            <Dependent Role="wizyty">
+              <PropertyRef Name="uzytkownik_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GabinetStoreContainer" CdmEntityContainer="GabinetEntities">
+          <EntitySetMapping Name="godziny">
+            <EntityTypeMapping TypeName="Gabinet.godziny">
+              <MappingFragment StoreEntitySet="godziny">
+                <ScalarProperty Name="godziny_id" ColumnName="godziny_id" />
+                <ScalarProperty Name="uzytkownik_id" ColumnName="uzytkownik_id" />
+                <ScalarProperty Name="pon_od" ColumnName="pon_od" />
+                <ScalarProperty Name="pon_do" ColumnName="pon_do" />
+                <ScalarProperty Name="wt_od" ColumnName="wt_od" />
+                <ScalarProperty Name="wt_do" ColumnName="wt_do" />
+                <ScalarProperty Name="sr_od" ColumnName="sr_od" />
+                <ScalarProperty Name="sr_do" ColumnName="sr_do" />
+                <ScalarProperty Name="czw_od" ColumnName="czw_od" />
+                <ScalarProperty Name="czw_do" ColumnName="czw_do" />
+                <ScalarProperty Name="pt_od" ColumnName="pt_od" />
+                <ScalarProperty Name="pt_do" ColumnName="pt_do" />
+                <ScalarProperty Name="sb_od" ColumnName="sb_od" />
+                <ScalarProperty Name="sb_do" ColumnName="sb_do" />
+                <ScalarProperty Name="nd_od" ColumnName="nd_od" />
+                <ScalarProperty Name="nd_do" ColumnName="nd_do" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Gabinet.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uzytkownik">
+            <EntityTypeMapping TypeName="Gabinet.uzytkownik">
+              <MappingFragment StoreEntitySet="uzytkownik">
+                <ScalarProperty Name="uzytkownik_id" ColumnName="uzytkownik_id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="pracownik" ColumnName="pracownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uslugi">
+            <EntityTypeMapping TypeName="Gabinet.uslugi">
+              <MappingFragment StoreEntitySet="uslugi">
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="czas" ColumnName="czas" />
+                <ScalarProperty Name="cena" ColumnName="cena" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="usluga_id" ColumnName="usluga_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="klienci">
+            <EntityTypeMapping TypeName="Gabinet.klienci">
+              <MappingFragment StoreEntitySet="klienci">
+                <ScalarProperty Name="modyfikacja" ColumnName="modyfikacja" />
+                <ScalarProperty Name="kodPocztowy" ColumnName="kodPocztowy" />
+                <ScalarProperty Name="miejscowosc" ColumnName="miejscowosc" />
+                <ScalarProperty Name="numerDomu" ColumnName="numerDomu" />
+                <ScalarProperty Name="ulica" ColumnName="ulica" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="klienci_id" ColumnName="klienci_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uzytkownik_usluga">
+            <EntityTypeMapping TypeName="Gabinet.uzytkownik_usluga">
+              <MappingFragment StoreEntitySet="uzytkownik_usluga">
+                <ScalarProperty Name="modyfikacja" ColumnName="modyfikacja" />
+                <ScalarProperty Name="usluga_id" ColumnName="usluga_id" />
+                <ScalarProperty Name="uzytkownik_id" ColumnName="uzytkownik_id" />
+                <ScalarProperty Name="uzytkownik_usluga_id" ColumnName="uzytkownik_usluga_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="Gabinet.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wizyty">
+            <EntityTypeMapping TypeName="Gabinet.wizyty">
+              <MappingFragment StoreEntitySet="wizyty">
+                <ScalarProperty Name="modyfikacja" ColumnName="modyfikacja" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="rezerwacja_do" ColumnName="rezerwacja_do" />
+                <ScalarProperty Name="rezerwacja_od" ColumnName="rezerwacja_od" />
+                <ScalarProperty Name="uzytkownik_id" ColumnName="uzytkownik_id" />
+                <ScalarProperty Name="uslugi_id" ColumnName="uslugi_id" />
+                <ScalarProperty Name="klienci_id" ColumnName="klienci_id" />
+                <ScalarProperty Name="wizyty_id" ColumnName="wizyty_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

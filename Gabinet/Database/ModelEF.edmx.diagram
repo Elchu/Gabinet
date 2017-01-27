@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c25644809ea64da1a4ec1521d2a22ff8" Name="Diagram1">
+        <EntityTypeShape EntityType="Gabinet.godziny" Width="1.5" PointX="6.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Gabinet.sysdiagrams" Width="1.5" PointX="8.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Gabinet.uzytkownik" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <AssociationConnector Association="Gabinet.FK_godziny_uzytkownik" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Gabinet.uslugi" Width="1.5" PointX="0.625" PointY="7.625" />
+        <EntityTypeShape EntityType="Gabinet.klienci" Width="1.5" PointX="7.625" PointY="5.375" />
+        <EntityTypeShape EntityType="Gabinet.uzytkownik_usluga" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="Gabinet.FK_uzytkownik_usluga_uslugi" />
+        <AssociationConnector Association="Gabinet.FK_uzytkownik_usluga_uzytkownik" />
+        <EntityTypeShape EntityType="Gabinet.status" Width="1.5" PointX="4.125" PointY="9.75" />
+        <EntityTypeShape EntityType="Gabinet.wizyty" Width="1.5" PointX="3.75" PointY="5.375" />
+        <AssociationConnector Association="Gabinet.FK_wizyty_klienci" />
+        <AssociationConnector Association="Gabinet.FK_wizyty_status" />
+        <AssociationConnector Association="Gabinet.FK_wizyty_uslugi" />
+        <AssociationConnector Association="Gabinet.FK_wizyty_uzytkownik" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
